@@ -1,3 +1,4 @@
+var http = require('http');
 var proxy = require('http-proxy');
 var express = require('express');
 var https = require('https');
@@ -25,6 +26,10 @@ var httpsProxy = proxy.createProxyServer({
 var httpProxy = proxy.createProxyServer({
   changeOrigin: true
 });
+
+http.createServer(function(req, res) {
+    httpsProxy.web(req, res, { target: 'http://www.google.com' });
+}).listen(3000);
 
 function stripSub (link) {
   var original = url.parse(link);
